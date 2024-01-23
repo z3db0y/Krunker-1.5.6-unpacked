@@ -1,0 +1,53 @@
+module.exports = function (cwk, cwl, cwo, cwp) {
+  cwo = cwo || {};
+  this.id = cwk;
+  this.name = cwl;
+  this.score = cwo.player_score || 0;
+  this.kills = cwo.player_kills || 0;
+  this.deaths = cwo.player_deaths || 0;
+  this.wins = cwo.player_wins || 0;
+  this.hack = cwo.player_hack || 0;
+  this.games = cwo.player_games_played || 0;
+  this.clan = cwo.player_clanid;
+  this.funds = cwo.player_funds || 0;
+  this.featured = cwo.player_featured || 0;
+  this.clan = cwo.player_clan || null;
+  this.timePlayed = cwo.player_timeplayed || 0;
+  this.skins = cwo.skins || [];
+  this.lastReward = cwo.player_lastreward || 0;
+  this.developer = cwo.player_developer || 0;
+  this.following = cwo.player_follow || 0;
+  this.followers = cwo.player_followed || 0;
+  this.isFollowing = cwo.player_following || 0;
+  this.stats = cwo.player_stats ? JSON.parse(cwo.player_stats) : {};
+  this.setData = function (cwk) {
+    this.kills = cwk[1];
+    this.wins = cwk[2];
+    this.games = cwk[3];
+    this.deaths = cwk[4];
+    this.funds = cwk[5];
+    this.score = cwk[6];
+    this.updateLevel();
+    this.clan = cwk[7];
+    this.timePlayed = cwk[8];
+    this.featured = cwk[9];
+    this.skins = cwk[10];
+    this.lastReward = cwk[11];
+    this.developer = cwk[12];
+    this.following = cwk[13];
+    this.followers = cwk[14];
+    this.isFollowing = cwk[15];
+    this.stats = cwk[16];
+    this.hack = cwk[17];
+  };
+  this.updateLevel = function () {
+    var cwk = cwp.rankVar * Math.sqrt(this.score);
+    this.level = Math.floor(cwk);
+    this.levelProg = Math.round((cwk - this.level) * 100);
+    this.level = Math.max(1, this.level);
+  };
+  this.updateLevel();
+  this.getData = function () {
+    return [this.id, this.kills, this.wins, this.games, this.deaths, this.funds, this.score, this.clan, this.timePlayed, this.featured, this.skins, this.lastReward, this.developer, this.following, this.followers, this.isFollowing, this.stats, this.hack];
+  };
+};
